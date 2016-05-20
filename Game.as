@@ -1,0 +1,1 @@
+﻿package  {		public class Game {				var buckets:Array;		var figures:Array;		var transistion:Array;		var counter:int;		public function Game(labels:Array) {						// constructor code		}				public function setupBuckets(labels:Array) {					}	}	}
