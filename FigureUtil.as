@@ -1,49 +1,49 @@
 ﻿package {
   import flash.display.DisplayObject;
+  import flash.display.MovieClip;
   
   public class FigureUtil {
-    public static const CIRCLE = 1;
-    public static const TRIANGLE = 2;
-    public static const SQUARE = 3;
+    public static const CIRCLE: int = 1;
+    public static const TRIANGLE: int = 2;
+    public static const SQUARE: int = 3;
     
-    public static const PINK = 1;
-    public static const PINK_COLOR = 0xFF0099;
-    public static const BLUE = 2;
-    public static const BLUE_COLOR = 0x0033FF;
-    public static const GREEN = 3;
-    public static const GREEN_COLOR = 0x00FF33;
+    public static const SMALL_SIZE: int = 1;
+    public static const MEDIUM_SIZE: int = 2;
+    public static const LARGE_SIZE: int = 3;
     
-    /*function shapeForShapetype(type: Number): String {
-       switch (figureShape) {
-       case CIRCLE:
-       return "Circle";
-       break;
-       case TRIANGLE:
-       return "Triangle";
-       break;
-       case SQUARE:
-       return "Square";
-       break;
-       default:
-       return "Error";
-       break;
-       }
-       }*/
+    public static const PINK_COLOR: uint = 0xFF0099;
+    public static const BLUE_COLOR: uint = 0x0033FF;
+    public static const GREEN_COLOR: uint = 0x00FF33;
     
-    public function colorForType(type: Number): Number {
-      switch (type) {
-        case PINK: 
-          return PINK_COLOR;
+    public static function shapeForShapetype(type: Number): String {
+      switch (figureShape) {
+        case CIRCLE: 
+          return "Circle";
           break;
-        case BLUE: 
-          return BLUE_COLOR;
+        case TRIANGLE: 
+          return "Triangle";
           break;
-        case GREEN: 
-          return GREEN_COLOR;
+        case SQUARE: 
+          return "Square";
           break;
         default: 
-          return 0x000000;
+          return "Error";
+      }
+    }
+    
+    public static function sizeForSizeClass(type: int = MEDIUM_SIZE): void {
+      switch (type) {
+        case SMALL_SIZE: 
+          return 20 + Math.random() * 30
           break;
+        case MEDIUM_SIZE: 
+          return 50 + Math.random() * 50
+          break;
+        case LARGE_SIZE: 
+          return 50 + Math.random() * 50
+          
+          break;
+        default: 
       }
     }
     
@@ -57,6 +57,29 @@
       var B = f & 0x0000FF;
       trace("Shading", color, "by", p, "%")
       return (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B));
+    }
+    
+    /**
+     * Adds the pifagor animation as a child
+     *
+     * Params:
+     *    {String} type - A string identifying what type of pifagor to add.
+     *  Can be either "Silent" or "Talking". Defaults to "Silent".
+     */
+    public static function addPifagor(parent: DisplayObject, type: String = "Silent"): MovieClip {
+      var pifagor: MovieClip
+      switch (type) {
+        case "Silent": 
+          pifagor = new PifagorSilent();
+          break;
+        case "Talking": 
+          pifagor = new Pifagor();
+          break;
+        default: 
+          pifagor = new PifagorSilent();
+          break;
+      }
+      return parent.addChild(pifagor);
     }
     
     public static function extend(): void {
