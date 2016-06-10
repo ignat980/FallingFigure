@@ -3,6 +3,11 @@
   import flash.display.MovieClip;
   
   public class FigureUtil {
+    
+    public static const PROPERTY_SIZE: String = "size";
+    public static const PROPERTY_SHAPE: String = "shape";
+    public static const PROPERTY_COLOR: String = "color";
+    
     public static const CIRCLE: int = 1;
     public static const TRIANGLE: int = 2;
     public static const SQUARE: int = 3;

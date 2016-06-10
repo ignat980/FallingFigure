@@ -31,7 +31,6 @@
       this.transform.colorTransform = myTransform;
       this.previousSpeed = this.speed = (Math.random() + 0.2) * 4;
       this.arrayIndex = index;
-      //this.addEventListener(MouseEvent.MOUSE_DOWN,
     }
     
     public function stopFalling(): void {

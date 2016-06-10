@@ -20,13 +20,14 @@
     var instructions: TextField;
     var startBtn: CustomButtonContainer;
     var checkboxes: Array;
+    var game: Game;
     
     //init, Makes the main menu screen
     public function Main() {
       FigureUtil.extend(); //Add runtime-specific functionality
       
       //Add an animated character at the center near the top
-      (pifagor = FigureUtil.addPifagor(this)).at(this.stage.stageWidth / 2 - pifagor.width / 2, 20);
+      (pifagor = FigureUtil.addPifagor(this)).at(this.stage.stageWidth / 2 - pifagor.width / 2, 70);
       
       this.stage.color = int(cyanColor);
       
@@ -37,50 +38,30 @@
         autoSize = TextFieldAutoSize.CENTER;
         selectable = false;
       }
-      addChild(instructions).at(this.stage.stageWidth / 2 - instructions.width / 2, 150);
+      addChild(instructions).at(this.stage.stageWidth / 2 - instructions.width / 2, 200);
       
       //Setup start button
       addChild(startBtn = new CustomButtonContainer("Easy", 0x00EE00)).at(this.stage.stageWidth / 4, 300).addEventListener(MouseEvent.CLICK, startGame);
       addChild(startBtn = new CustomButtonContainer("Medium", 0xEE7700)).at(this.stage.stageWidth / 2, 300).addEventListener(MouseEvent.CLICK, startGame);
       addChild(startBtn = new CustomButtonContainer("Hard", 0xEE0000)).at(this.stage.stageWidth / 4 * 3, 300).addEventListener(MouseEvent.CLICK, startGame);
       startBtn.enabled = true;
-      
-      //Setup checkboxes
-      checkboxes = [new CheckBox(), new CheckBox(), new CheckBox()];
-      const labels = ["By Color", "By Size", "By Shape"];
-      for (var i: int in checkboxes) {
-        const c: CheckBox = checkboxes[i];
-        with (c) {
-          addEventListener(Event.CHANGE, handleCheckbox);
-          label = labels[i]; //Set label text
-          labelPlacement = "bottom";//Arrange label to be below checkbox
-          move(instructions.stage.stageWidth / 4 * (i + 1) - width / 2, 220);
-        }
-        addChild(c);
-      }
+    
     }
     
-    //Handler method when you select a checkbox
-    private function handleCheckbox(e: Event) {
-      if (checkboxes.every(function(c: CheckBox, index: int, array: Array) {
-        return !c.selected;
-      })) {
-        startBtn.enabled = false;
-      } else {
-        startBtn.enabled = true;
-      }
-    }
-    
-    //Handler method for starting a game
+    //Handler method on button click for starting a game
     public function startGame(e: MouseEvent) {
       if (e.target.enabled) {
-        var labels = checkboxes.filter(function(c: CheckBox, index: int, arr: Array) {
-          return c.selected == true;
-        }).map(function(c: CheckBox, index: int, arr: Array) {
-          return c.label.substring(3);
-        });
-        trace("The labels are", labels)
+        trace("Clicked", e.target.label.text)
       }
+      if (false) {
+        //TODO: Create game based on difficulty, random properties (easy = any 1, medium = any 2, hard = all 3)
+        addChild(game = new Game()).at(0, 0)
+        game.addEventListener(GameEvent.DONE, backToMenu)
+      }
+    }
+    
+    public function backToMenu(e: Event): void {
+      removeChild(game)
     }
   }
 }

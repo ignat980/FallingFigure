@@ -23,6 +23,7 @@
         text = labelText;
         at(-width / 2, -height / 2)
       }
+      button.label = label
       addChild(label)
     }
     
@@ -40,18 +41,27 @@ import flash.display.SimpleButton;
 import flash.display.Shape;
 import flash.filters.DropShadowFilter;
 import flash.geom.Rectangle;
+import flash.text.TextField;
 
 class _CustomButton extends SimpleButton {
   
   public function _CustomButton(color: Number = 0xEEEE00, rect: Rectangle = null) {
     super()
-    upState = new ButtonState(color, 0, rect)
+    this.upState = new ButtonState(color, 0, rect)
     var b = new ButtonState(color, -0.1, rect)
     b.filters = [new DropShadowFilter(0, 0, 0, .75, 20, 20, 1.7, 1, true)]
-    downState = b
-    overState = new ButtonState(color, 0.2, rect)
-    hitTestState = overState
-    useHandCursor = true
+    this.downState = b
+    this.overState = new ButtonState(color, 0.2, rect)
+    this.hitTestState = overState
+    this.useHandCursor = true
+  }
+  
+  public function set label(value):void {
+    this.downState.label = value
+  }
+  
+  public function get label(): TextField {
+    return this.downState.label;
   }
 
 }
@@ -60,6 +70,7 @@ class ButtonState extends Shape {
   private var bgColor: uint;
   private var brightness: Number;
   private var drawRect: Rectangle;
+  public var label: TextField;
   
   public function ButtonState(color: uint, brightness: Number = 0, rect: Rectangle = null): void {
     super()
