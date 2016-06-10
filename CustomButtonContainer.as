@@ -1,6 +1,7 @@
 ﻿package {
   
   import flash.display.Sprite;
+  import flash.geom.Rectangle;
   import flash.text.TextField;
   import flash.text.TextFormat;
   import flash.text.TextFormatAlign;
@@ -10,8 +11,8 @@
     public var label: TextField;
     private var button: _CustomButton;
     
-    public function CustomButtonContainer(labelText: String = "", color: Number = 0xEEEE00) {
-      addChild(button = new _CustomButton(color))
+    public function CustomButtonContainer(labelText: String = "", color: Number = 0xEEEE00, rect: Rectangle = null) {
+      addChild(button = new _CustomButton(color, rect))
       with (label = new TextField) {
         width = 120
         autoSize = TextFieldAutoSize.CENTER;
@@ -25,27 +26,30 @@
       addChild(label)
     }
     
-    
-    public function get enabled():Boolean {
-       return button.enabled;
+    public function get enabled(): Boolean {
+      return button.enabled;
     }
-
-    public function set enabled(newValue:Boolean):void {
-      button.enabled = enabled;
+    
+    public function set enabled(newValue: Boolean): void {
+      button.enabled = newValue;
     }
   }
 }
 
 import flash.display.SimpleButton;
 import flash.display.Shape;
+import flash.filters.DropShadowFilter;
+import flash.geom.Rectangle;
 
 class _CustomButton extends SimpleButton {
   
-  public function _CustomButton(color: Number = 0xEEEE00) {
+  public function _CustomButton(color: Number = 0xEEEE00, rect: Rectangle = null) {
     super()
-    upState = new ButtonState(color)
-    downState = new ButtonState(color, -0.3)
-    overState = new ButtonState(color, 0.3)
+    upState = new ButtonState(color, 0, rect)
+    var b = new ButtonState(color, -0.1, rect)
+    b.filters = [new DropShadowFilter(0, 0, 0, .75, 20, 20, 1.7, 1, true)]
+    downState = b
+    overState = new ButtonState(color, 0.2, rect)
     hitTestState = overState
     useHandCursor = true
   }
@@ -55,11 +59,13 @@ class _CustomButton extends SimpleButton {
 class ButtonState extends Shape {
   private var bgColor: uint;
   private var brightness: Number;
+  private var drawRect: Rectangle;
   
-  public function ButtonState(color, brightness: Number = 0): void {
+  public function ButtonState(color: uint, brightness: Number = 0, rect: Rectangle = null): void {
     super()
     this.bgColor = color
     this.brightness = brightness
+    this.drawRect = rect ? rect : new Rectangle(-62, -35, 124, 70);
     draw();
   }
   
@@ -67,7 +73,7 @@ class ButtonState extends Shape {
     with (this.graphics) {
       beginFill(FigureUtil.shadeColor(this.bgColor, this.brightness));
       lineStyle(3);
-      drawRect(-62, -36.5, 124, 73);
+      drawRect(this.drawRect.x, this.drawRect.y, this.drawRect.width, this.drawRect.height);
     }
   }
 }

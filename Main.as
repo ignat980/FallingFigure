@@ -40,8 +40,10 @@
       addChild(instructions).at(this.stage.stageWidth / 2 - instructions.width / 2, 150);
       
       //Setup start button
-      addChild(startBtn = new CustomButtonContainer("Start!")).at(this.stage.stageWidth / 2, 300).addEventListener(MouseEvent.CLICK, startGame);
-      startBtn.enabled = false;
+      addChild(startBtn = new CustomButtonContainer("Easy", 0x00EE00)).at(this.stage.stageWidth / 4, 300).addEventListener(MouseEvent.CLICK, startGame);
+      addChild(startBtn = new CustomButtonContainer("Medium", 0xEE7700)).at(this.stage.stageWidth / 2, 300).addEventListener(MouseEvent.CLICK, startGame);
+      addChild(startBtn = new CustomButtonContainer("Hard", 0xEE0000)).at(this.stage.stageWidth / 4 * 3, 300).addEventListener(MouseEvent.CLICK, startGame);
+      startBtn.enabled = true;
       
       //Setup checkboxes
       checkboxes = [new CheckBox(), new CheckBox(), new CheckBox()];

@@ -31,7 +31,7 @@
       }
     }
     
-    public static function sizeForSizeClass(type: int = MEDIUM_SIZE): void {
+    public static function sizeForSizeClass(type: int = MEDIUM_SIZE): Number {
       switch (type) {
         case SMALL_SIZE: 
           return 20 + Math.random() * 30
